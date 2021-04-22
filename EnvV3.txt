@@ -1,0 +1,113 @@
+from time import sleep
+from urllib import parse
+from pathlib import Path
+import json
+import requests
+from bs4 import BeautifulSoup
+import os
+
+headers = {"Content-Type": "application/json","user-agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36","Connection": "close"}
+
+def main():
+    go_web=request_web()
+    go_web.first_go_url()
+    
+    
+class request_web():
+    def __init__(self):
+        self.forward_url='https://e-service.cwb.gov.tw/HistoryDataQuery/MonthDataController.do?command=viewMain&station='
+        self.now_year=2021
+        self.now_month=3
+        self.now_station=0      # 測站改這裡!
+        
+#     def subtract(self):
+#         self.now_year-=1
+#         self.now_month-=1
+        
+    def first_go_url(self):
+        data = Path("D:\\Download\\all_station.json").read_text()
+        thing = json.loads(data)
+#         do_times=1
+        location='New_TaipeiCity'         # 地點改這裡!
+        self.makedir(location)        
+        
+#         now_station=0
+        for text in thing[location][self.now_station:]:   # 台北的第一個觀測站
+            print('目前在第:',self.now_station,'測站')
+            while self.now_year>=2000:
+                if self.now_month < 10:
+                    month='0'+str(self.now_month)
+                else:
+                    month=self.now_month
+                url=f'{self.forward_url}{text[0]}&stname={text[1]}&datepicker={self.now_year}-{month}'
+                print(url)
+                now_day=f'{self.now_year}-{month}'
+                try:
+                    s=self.get_html_requese(url,text[0],now_day)
+                except:
+                    print('發生error')
+                    quit()
+                self.write(s,text[0],month,location)
+                self.now_month-=1
+                if self.now_month==0:
+                    self.now_month=12
+                    self.now_year-=1
+            self.now_year=2021
+            self.now_month=3
+            self.now_station+=1
+            
+        
+        
+    def get_html_requese(self,url,stacode,day):
+        sleep(1)
+        re=requests.get(url,headers=headers)
+#         print(re.status_code)
+        soup = BeautifulSoup(re.text,'lxml')
+#         print(soup)
+        title=soup.select('table#MyTable tr[class="second_tr"] th')
+        s1='測站代號,觀測日期'
+#         s1=title[0].text
+        for i in title[:]:
+            s1+=','+i.text
+        s1+='\n'
+        
+        eng_title=soup.select('table#MyTable tr[class="third_tr"] th')
+        s2='StationCode,ObservDay'           
+#         s2=eng_title[0].text
+        for i in eng_title[:]:
+            s2+=','+i.text
+        s2+='\n'
+        
+        content=soup.select('table#MyTable tr td')
+        count=0
+        s3=''
+        for i in content:
+            if count%35 == 0:         
+                s3+=stacode+','+day
+                s3+=','+i.text        
+            else:
+                s3+=','+i.text
+            count+=1
+            if count==35:             
+                s3+='\n'
+                count=0
+                
+        s4=s1+s2+s3
+        return s4
+    
+    def write(self,s,text,month,location):
+        sleep(1)
+        path=f'D:\\Download\\{location}\\{text}-{self.now_year}-{month}.csv'
+        with open(path,'a',encoding='utf8') as f:
+            f.write(s)   
+        print(location,text,self.now_year,'年',self.now_month,'月','寫入完畢')
+    
+    def makedir(self,location):
+        path = f'D:\\Download\\{location}'
+        if not os.path.exists(path):
+            os.mkdir(path)
+            
+if __name__=='__main__':
+    main()
+    
+    
