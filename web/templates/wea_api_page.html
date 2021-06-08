@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>即時天氣資訊</title>
+
+    <style>
+        .test {
+            /* border-width: 5px;
+            border-style: solid;
+            border-color: red; */
+            margin-top: 20px;
+        }
+
+
+        .like-table {
+            width: 100px;
+            height: 50px;
+            margin: 0 auto;
+            font-size: 12px;
+            line-height: 50px;
+            text-align: center;
+            background: #c00;
+        }
+    </style>
+    <link rel="icon" href="{{ url_for('static', filename='img/no_background_veg.png') }}">
+
+
+
+    <!-- date2 -->
+    <link href="../static/date/date2/dist/the-datepicker.css" rel="stylesheet" />
+    <script src="../static/date/date2/dist/the-datepicker.js"></script>
+    <!--  -->
+
+
+
+</head>
+
+<body>
+    {% extends 'first_page.html' %}
+
+    {% block footer %} 
+    <footer class="bg-light text-center text-lg-start" id="id_footer">
+        <div class="text-left p-3" style="background-color: #32b35f;text-align: right;font-weight:bold">
+            © 2021 Copyright : <a class="text-dark" href="https://www.cwb.gov.tw/V8/C/">資料來源:中央氣象局</a>
+        </div>
+    </footer>
+    {% endblock footer %}
+
+    {% block text %}
+    <div style=" font-weight:bolder ; color:white;font-weight:bold; text-shadow: black 1px 1px 1px, white -1px 0px 2px ;">
+    <h2 style="color:white">各地即時天氣概況</h2>
+    </div>
+    {% endblock text %}
+
+    {% block right_div %}
+    <form action="/wea_day" method="POST" enctype="multipart/form-data">
+        <div class='test'>
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <!-- 下面一行很重要!! name='veg_type' 這裡的veg_type要被web.py那邊接回去-->
+                        <select class="form-select" aria-label="Default select example" name='wea_type' id="">
+                            <option selected>請選擇測站</option>
+                            <option value="基隆">基隆</option>
+                            <option value="鞍部">鞍部</option>
+                            <option value="臺北">臺北</option>
+                            <option value="竹子湖">竹子湖</option>
+                            <option value="淡水">淡水</option>
+                            <option value="板橋">板橋</option>
+                            <option value="新屋">新屋</option>
+                            <option value="新竹">新竹</option>
+                            <option value="臺中">臺中</option>
+                            <option value="梧棲">梧棲</option>
+                            <option value="日月潭">日月潭</option>
+                            <option value="玉山">玉山</option>
+                            <option value="田中">田中</option>
+                            <option value="嘉義">嘉義</option>
+                            <option value="阿里山">阿里山</option>
+                            <option value="永康">永康</option>
+                            <option value="高雄">高雄</option>
+                            <option value="恆春">恆春</option>
+                            <option value="蘇澳">蘇澳</option>
+                            <option value="宜蘭">宜蘭</option>
+                            <option value="花蓮">花蓮</option>
+                            <option value="臺東">臺東</option>
+                            <option value="成功">成功</option>
+                            <option value="澎湖">澎湖</option>
+                            <option value="金門">金門</option>
+                            <option value="馬祖">馬祖</option>
+                            <option value="蘭嶼">蘭嶼</option>
+                        </select>
+                    </div>
+                    <!-- <div class="col">
+
+                    </div> -->
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary">確定提交</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </form>
+    
+    <br>
+
+    <div class="table-responsive  ,overflow-scroll " 
+         style="overflow:auto;height:600px; text-align:center;margin-left: 20px;">
+        <table class="table table-striped table-hover" style="table-layout:fixed; text-align:initial">
+            <thead class="table-info align-middle">
+                <tr class="table-active">
+                <tr>
+                    <th scope="col">測站名稱</th>
+                    <th scope="col">現在氣溫</th>
+                    <th scope="col">現在濕度</th>
+                    <th scope="col">累積雨量</th>
+                    <th scope="col">所處縣市</th>
+                    <th scope="col">所處區域</th>
+                    <th scope="col">更新時間</th>
+                </tr>
+                </tr>
+            </thead>
+
+            <tbody class="align-middle">
+                {% for record in data %}
+                <tr class="table table-light table-striped table-hover mt-5">
+                <tr>
+                    <th scope="col">{{ record[1] }}站</th>
+                    <th scope="col">{{ record[2] }} ℃</th>
+                    <th scope="col">{{ record[3] }}</th>
+                    <th scope="col">{{ record[4] }} mm</th>
+                    <th scope="col">{{ record[5] }}</th>
+                    <th scope="col">{{ record[6] }}</th>
+                    <th scope="col">{{ record[0] }}</th>
+                </tr>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+
+    </div>
+
+    {% endblock right_div %}
+
+</body>
+
+</html>

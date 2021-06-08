@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>即時天氣資訊</title>
+
+    <style>
+        .test {
+            /* border-width: 5px;
+            border-style: solid;
+            border-color: red; */
+            margin-top: 20px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    {% extends 'first_page.html' %}
+
+    {% block footer %} 
+    <footer class="bg-light text-center text-lg-start" id="id_footer">
+        <div class="text-left p-3" style="background-color: #32b35f;text-align: right;font-weight:bold">
+            © 2021 Copyright : <a class="text-dark" href="https://www.cwb.gov.tw/V8/C/">資料來源:中央氣象局</a>
+        </div>
+    </footer>
+    {% endblock footer %}
+
+    {% block text %}
+    <div style="font-weight:bolder ; color:white;font-weight:bold; text-shadow: black 1px 1px 1px, white -1px 0px 2px ;">
+    <h2 style="color:white">本站即時天氣概況</h2>
+    </div>
+    {% endblock text %}
+
+    {% block right_div %}
+    <!-- 這邊很重要!!! action="/veg_day" 這裡當按下submit 會將資料丟給web.py裡的
+    /veg_day-->
+    <form action="/wea_day" method="POST" enctype="multipart/form-data">
+        <div class='test'>
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <!-- 下面一行很重要!! name='veg_type' 這裡的veg_type要被web.py那邊接回去-->
+                        <!-- <spanp>單一測站資料</span> -->
+                        <select class="form-select" aria-label="Default select example" name='wea_type' id="">
+                            <option selected>請選擇測站</option>
+                            <option value="基隆">基隆</option>
+                            <option value="鞍部">鞍部</option>
+                            <option value="臺北">臺北</option>
+                            <option value="竹子湖">竹子湖</option>
+                            <option value="淡水">淡水</option>
+                            <option value="板橋">板橋</option>
+                            <option value="新屋">新屋</option>
+                            <option value="新竹">新竹</option>
+                            <option value="臺中">臺中</option>
+                            <option value="梧棲">梧棲</option>
+                            <option value="日月潭">日月潭</option>
+                            <option value="玉山">玉山</option>
+                            <option value="田中">田中</option>
+                            <option value="嘉義">嘉義</option>
+                            <option value="阿里山">阿里山</option>
+                            <option value="永康">永康</option>
+                            <option value="高雄">高雄</option>
+                            <option value="恆春">恆春</option>
+                            <option value="蘇澳">蘇澳</option>
+                            <option value="宜蘭">宜蘭</option>
+                            <option value="花蓮">花蓮</option>
+                            <option value="臺東">臺東</option>
+                            <option value="成功">成功</option>
+                            <option value="澎湖">澎湖</option>
+                            <option value="金門">金門</option>
+                            <option value="馬祖">馬祖</option>
+                            <option value="蘭嶼">蘭嶼</option>
+                        </select>
+                        <br>
+                        <button type="submit" class="btn btn-primary">確定提交</button>
+                    </div>
+                    <div class="col">
+
+                    </div>
+                    <div class="col">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </form>
+    <br>
+    <div style="margin-left: 20px;">
+        <table>
+            <tbody>
+                {% for record in data %}
+                <tr>
+                    <td style="font-size:x-large ; font-weight: bolder;">
+                        <br>
+                        {{ record[1] }}<br>
+                        {{ record[0] }}<br>
+                        {{ record[2] }}<br>
+                        {{ record[3] }}<br>
+                        {{ record[4] }}<br>
+                        {{ record[5] }}<br>
+                        {{ record[6] }}<br>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <div class="col" style="margin-left: 20px;">
+        <input class="btn btn-primary" type ="button" onclick="history.back()" value="上頁"></input>
+        <!-- <input class="btn btn-primary" type ="button" onclick="history.forward()" value="下頁"></input> -->
+    </div>
+    <br>
+
+    {% endblock right_div %}
+
+</body>
+
+</html>

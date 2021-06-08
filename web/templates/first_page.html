@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %}
+    <title>青菜青菜買</title>
+    {% endblock title %}
+    <!-- 改 ico img -->
+    <link rel="icon" href="{{ url_for('static', filename='img/no_background_veg.png') }}">
+
+    {% include "_styles.html"%}
+    {% include "_scripts.html" %}
+    <style>
+        /* html {
+            height: 100%;
+        } */
+
+        body {
+            /* 設定body高度為100% 拉到視窗可視的大小 */
+            height: 100%;
+            width: 100%;
+            position: relative;
+        }
+
+        #id_footer {
+            /* 設定footer的高度 */
+            height: 10px;
+            /* box-sizing: border-box; */
+            /* 設定footer絕對位置在底部 */
+            position: absolute;
+            bottom: 5%;
+            /* 展開footer寬度 */
+            width: 100%;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar-->
+
+        <!-- 編輯 footer -->
+        {% block footer %}
+        <!-- <footer class="bg-light text-center text-lg-start" id="id_footer">
+            <div class="text-left p-2" style="background-color: #32b35f;text-align: right;">
+                © 2021 Copyright : <a class="text-dark">BDSE18-青菜青菜買</a></a>
+            </div>
+        </footer> -->
+        {% endblock footer %}
+
+
+        <div class="border-end " id="sidebar-wrapper" style="background-color:#88eaaa;">
+
+            <!-- 顏色改變 -->
+            <!-- <div class="sidebar-heading border-bottom " style="background-color: #FF8040;">青菜青菜買</div> -->
+
+            <div class="sidebar-heading border-bottom " style="background-color: #88eaaa;"><img width="150px"
+                    height="150px" style="margin-left: 30px; " src="../static/img/011.png">
+            </div>
+            <!-- <span><img width="100px" height="35px" src="../static/img/try2.png"></span> -->
+            <!-- 顏色改變 -->
+
+            <div class="list-group list-group-flush" style="
+                 font-weight:bold; 
+                 text-shadow: black 1px 0px 2px, black -1px 0px 2px;font-size:large; 
+                 margin-left:2px;
+                 margin-right:2px; ">
+                <a class="list-group-item list-group-item-action list-group-item-light p-3 ,p-3 mb-2 " style="
+                    border-radius:10px;
+                    background-color:#32b35f;
+                    color:rgb(255, 255, 255);
+                    border-top-width:1px;
+                    border-right-width:1.5px;
+                    border-left-width:3px;
+                    border-bottom-width:4px;" href="/typ">颱風資料紀錄</a>
+                <a class="list-group-item list-group-item-action list-group-item-light p-3 ,p-3 mb-2 " style="
+                    margin-top: 5px;
+                    border-radius:10px;
+                    background-color:#32b35f;
+                    color:rgb(255, 255, 255);; 
+                    border-top-width:1px;
+                    border-right-width:1.5px;
+                    border-left-width:3px;
+                    border-bottom-width:4px;;" href="/veg_day">作物交易資料</a>
+                <a class="list-group-item list-group-item-action list-group-item-light p-3 ,p-3 mb-2 " style="
+                    margin-top: 5px;
+                    border-radius:10px;
+                    background-color:#32b35f;
+                    color:rgb(255, 255, 255);; 
+                    border-top-width:1px;
+                    border-right-width:1.5px;
+                    border-left-width:3px;
+                    border-bottom-width:4px;" href="/wea_day">即時天氣概況</a>
+                <a class="list-group-item list-group-item-action list-group-item-light p-3 ,p-3 mb-2 " style="
+                    margin-top: 5px;
+                    border-radius:10px;
+                    background-color:#32b35f;
+                    color:rgb(255, 255, 255);; 
+                    border-top-width:1px;
+                    border-right-width:1.5px;
+                    border-left-width:3px;
+                    border-bottom-width:4px;" href="/team">專案成員簡介</a>
+            </div>
+
+            <!-- <div>
+                <p style=" position:absolute; bottom:0px; text-align: right;"> © 2021 Copyright<br>青菜青菜買</p>
+            </div> -->
+
+        </div>
+
+
+        <div id="page-content-wrapper">
+            <!-- Top navigation-->
+            <!-- class="navbar navbar-expand-lg bg-light<-這個為顏色 navbar-light  border-bottom  -->
+            <nav class="navbar navbar-expand-lg navbar-light border-bottom "
+                style="background-color: #32b35f;border-radius: 2px;">
+                <div class="container-fluid">
+                    <!-- block text -->
+                    {% block text %}
+                    <div
+                        style=" font-weight:bolder ; color:white;font-weight:bold; text-shadow: black 1px 1px 1px, white -1px 0px 2px ;">
+                        <h2>菜價漲跌預測</h2>
+                    </div>
+                    {% endblock text %}
+
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation"><span
+                            class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse " id="navbarSupportedContent" style="padding-left:auto;">
+
+                        <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+                            <li class="nav-item active" style="font-weight: bold;"><a class="nav-link" href="/">回首頁</a>
+                            </li>
+                            <!-- <li class="nav-item"><a class="nav-link" href="/team">小隊成員</a></li> -->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                    style="font-weight: bold;">更多</a>
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="/typ">颱風資料紀錄</a>
+                                    <a class="dropdown-item" href="/veg_day">作物交易資料</a>
+                                    <a class="dropdown-item" href="/wea_day">即時天氣概況</a>
+                                    <a class="dropdown-item" href="/team">專案成員簡介</a>
+                                    <!-- <div class="dropdown-divider"></div> -->
+                                    <!-- <a class="dropdown-item" href="#!">Something else here</a> -->
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <!-- Page content-->
+            {% block right_div %}
+            <div class="container-fluid table-responsive" style="overflow:auto;height:600px;">
+                <div style="margin-top: 10px;">
+                    <!-- <h3>Taipi 2020-11-01 至 2020-11-09 颱風-閃電</h3> -->
+                </div>
+                <table class="table table-hover table-sm table-bordered border-success"
+                    style="margin-top: 10px; table-layout: fixed;word-wrap : break-word;font-size:16px ;text-align: center; ">
+                    <thead class="align-middle">
+                        <!-- <h4 style="font-weight: bold;color:#003E3E;">台北市場</h4> -->
+                        <h5 style="font-weight: bold;color:#003E3E;">台北-初秋甘藍-漲跌預測</h5>
+                        <tr class="table-active">
+                            <th scope="col" style="background-color: #32b35f; color: white;">觀測日期<br>(年月日)</th>
+                            <th scope="col" style="background-color: #32b35f; color: white;">測站氣壓(hpa)</th>
+                            <th scope="col" style="background-color: #32b35f; color: white;">氣溫(℃)</th>
+                            <th scope="col" style="background-color: #32b35f; color: white;">相對溼度(%)</th>
+                            <th scope="col" style="background-color: #32b35f; color: white;">風速(m/s)</th>
+                            <th scope="col" style="background-color: #32b35f; color: white;">風向<br>(360°)</th>
+                            <th scope="col" style="background-color: #32b35f; color: white;">最大陣風(m/s)</th>
+                            <th scope="col" style="background-color: #32b35f; color: white;">降水量(mm)</th>
+                            <th scope="col" style="background-color: #32b35f; color: white;">海警發佈</th>
+                            <th scope="col" style="background-color: #32b35f; color: white;">颱風路徑</th>
+                            <th scope="col" style="background-color: #32b35f; color: white;">T+1</th>
+                            <th scope="col" style="background-color: #32b35f; color: white;">T+3</th>
+                            <th scope="col" style="background-color: #32b35f; color: white;">T+5</th>
+                            <th scope="col" style="background-color: #32b35f; color: white;">T+7</th>
+                        </tr>
+                    </thead>
+                    <tbody class="align-middle " style="font-weight: bold;">
+                        <tr>
+                            <th>21/03/11</th>
+                            <td>1007</td>
+                            <td>20</td>
+                            <td>83</td>
+                            <td>1</td>
+                            <td>144</td>
+                            <td>208</td>
+                            <td style=>0</td>
+                            <td style=>0</td>
+                            <td style=>0</td>
+                            <td style="background-color: #8CEA00;">小跌</td>
+                            <td style="background-color: #FFFFAA;">持平</td>
+                            <td style="background-color: #8CEA00">小跌</td>
+                            <td style="background-color: #8CEA00">小跌</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">21/03/12</th>
+                            <td>1006</td>
+                            <td>21</td>
+                            <td>81</td>
+                            <td>1</td>
+                            <td>124</td>
+                            <td>167</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td style="background-color: #FFFFAA;">持平</td>
+                            <td style="background-color: #FFFFAA;">持平</td>
+                            <td style="background-color: #FFFFAA;">持平</td>
+                            <td style="background-color: #FFFFAA;">持平</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">21/03/13</th>
+                            <td>1006</td>
+                            <td>19</td>
+                            <td>79</td>
+                            <td>2</td>
+                            <td>113</td>
+                            <td>156</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td style="background-color: #FFFFAA;">持平</td>
+                            <td style="background-color: #FFFFAA;">持平</td>
+                            <td style="background-color: #FFFFAA;">持平</td>
+                            <td style="background-color: #FF7575;">小漲</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">21/03/14</th>
+                            <td>1004</td>
+                            <td>19</td>
+                            <td>78</td>
+                            <td>1</td>
+                            <td>121</td>
+                            <td>168</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td style="background-color: #FFFFAA;">持平</td>
+                            <td style="background-color: #8CEA00;">小跌</td>
+                            <td style="background-color: #FFFFAA;">持平</td>
+                            <td style="background-color: #FFFFAA;">持平</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">21/03/16</th>
+                            <td>1001</td>
+                            <td>22</td>
+                            <td>73</td>
+                            <td>1</td>
+                            <td>125</td>
+                            <td>220</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td style="background-color: #8CEA00;">小跌</td>
+                            <td style="background-color: #8CEA00;">小跌</td>
+                            <td style="background-color: #FFFFAA;">持平</td>
+                            <td style="background-color: #FF7575;">小漲</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">21/03/17</th>
+                            <td>1001</td>
+                            <td>22</td>
+                            <td>79</td>
+                            <td>1</td>
+                            <td>128</td>
+                            <td>182</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td style="background-color: #8CEA00;">小跌</td>
+                            <td style="background-color: #8CEA00;">小跌</td>
+                            <td style="background-color: #FFFFAA;">持平</td>
+                            <td style="background-color:#FF7575;">小漲</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">21/03/18</th>
+                            <td>1001</td>
+                            <td>22</td>
+                            <td>84</td>
+                            <td>1</td>
+                            <td>138</td>
+                            <td>196</td>
+                            <td>1</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td style="background-color: #FFFFAA;">持平</td>
+                            <td style="background-color: #FFFFAA;">持平</td>
+                            <td style="background-color: #FF7575;">小漲</td>
+                            <td style="background-color: #FF7575;">小漲</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">21/03/19</th>
+                            <td>1000</td>
+                            <td>22</td>
+                            <td>82</td>
+                            <td>1</td>
+                            <td>147</td>
+                            <td>210</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td style="background-color: #FFFFAA;">持平</td>
+                            <td style="background-color: #FFFFAA;">持平</td>
+                            <td style="background-color: #FFFFAA;">持平</td>
+                            <td style="background-color: #FFFFAA;">持平</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">21/03/20</th>
+                            <td>999</td>
+                            <td>23</td>
+                            <td>81</td>
+                            <td>1</td>
+                            <td>127</td>
+                            <td>199</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td style="background-color: #FFFFAA;">持平</td>
+                            <td style="background-color: #FFFFAA;">持平</td>
+                            <td style="background-color: #FFFFAA;">持平</td>
+                            <td style="background-color: #FFFFAA;">持平</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">21/03/21</th>
+                            <td>1003</td>
+                            <td>19</td>
+                            <td>81</td>
+                            <td>2</td>
+                            <td>110</td>
+                            <td>134</td>
+                            <td>1</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td style="background-color: #FFFFAA;">持平</td>
+                            <td style="background-color: #FFFFAA;">持平</td>
+                            <td style="background-color: #8CEA00;">小跌</td>
+                            <td style="background-color: #FFFFAA;">持平</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="float: left;">
+                    <table class="table table-bordered table-sm table-bordered border-success">
+                        <thead class="align: middle" scope="row" style="font-weight: bolder;">
+                          漲跌幅分類
+                        </thead>
+                        <tbody class="align-middle">
+                        <tr>
+                            <td style="background-color: #FF0000;">
+                                大漲
+                            </td>
+                            <td>
+                                漲幅 ＞ +25%
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="background-color: #FF7575;">
+                                小漲
+                            </td>
+                            <td>
+                                5% ＜ 漲幅 ≦ 25%
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="background-color: #FFFFAA;">
+                                持平
+                            </td>
+                            <td>
+                                -5% ≦ 漲幅 ≦ +5%
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="background-color: #8CEA00;">
+                                小跌
+                            </td>
+                            <td>
+                                -25%≦ 漲幅 ＜-5%
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="background-color: #00BB00;">
+                                大跌
+                            </td>
+                            <td>
+                                漲幅 ＜ -25%
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    {% endblock right_div %}
+
+
+
+</body>
+
+</html>

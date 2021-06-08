@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>當日/過去蔬菜價格</title>
+
+    <style>
+        .test {
+            /* border-width: 5px;
+            border-style: solid;
+            border-color: red; */
+            margin-top: 20px;
+        }
+
+
+        /* .like-table {
+            width: 100px;
+            height: 50px;
+            margin: 0 auto;
+            font-size: 12px;
+            line-height: 50px;
+            text-align: center;
+            background: #c00;
+        } */
+    </style>
+    <link rel="icon" href="{{ url_for('static', filename='img/no_background_veg.png') }}">
+
+
+
+    <!-- date2 -->
+    <link href="../static/date/date2/dist/the-datepicker.css" rel="stylesheet" />
+    <script src="../static/date/date2/dist/the-datepicker.js"></script>
+    <!--  -->
+
+
+</head>
+
+<body>
+
+    {% extends 'first_page.html' %}
+
+    {% block text %}
+    <h3>當日/過去蔬菜價格-最多只能顯示1000筆資料</h3>
+    {% endblock text %}
+
+    {% block right_div %}
+    <!-- 這邊很重要!!! action="/veg_day" 這裡當按下submit 會將資料丟給web.py裡的
+    /veg_day-->
+    <form action="/veg_day" method="POST" enctype="multipart/form-data">
+        <div class='test'>
+            <!-- 這邊是測試border -->
+            <div class="container">
+                <div class="row">
+                    <div class="col" style="text-align:center;">
+                        <!-- 下面一行很重要!! name='veg_type' 這裡的veg_type要被web.py那邊接回去-->
+                        <select class="form-select ," aria-label="Default select example" name='veg_type' id="">
+                            <option selected>選擇蔬菜</option>
+                            <option value="LA1">高麗菜</option>
+                            <option value="LF2">空心菜</option>
+                            <option value="GG">試試看</option>
+                        </select>
+                    </div>
+                    <!-- 測試先註解 -->
+                    <!-- <div class="col" style="text-align:center;"> -->
+                    <div class="col">
+                        <div class="col">
+                            <input type="text" id="date_select1" name="fs_date" class="form-control" placeholder="起始時間/可以不選擇">
+                            <script>
+                                const input1 = document.getElementById('date_select1');
+                                const datepicker1 = new TheDatepicker.Datepicker(input1);
+                                datepicker1.options.setShowDeselectButton();
+                                datepicker1.options.setTitle("起始時間");   // 時間抬頭 
+                                datepicker1.render();
+                            </script>
+                        </div>
+                        <!-- ------------------------------------------ -->
+                        <!-- <div class="mb-3"> -->
+                       <!-- <label for="formGroupExampleInput" class="form-label">Example label</label>
+                        <input type="text" id="date_select1" name="fs_date" class="form-control" placeholder="起始時間"> 
+                            <script>
+                                const input = document.getElementById('date_select1');
+                                const datepicker = new TheDatepicker.Datepicker(input);
+
+                                datepicker.options.setTitle("first");   // 時間抬頭 
+                                datepicker.render();
+                            </script>
+                        </div> -->
+                        <!-- --------------------------------------------------------- -->
+
+                    </div>
+                    <div class="col">
+                        <input type="text" id="date_select2" name="se_date" class="form-control" placeholder="終點時間/可以不選擇">
+                        <script>
+                            const input2 = document.getElementById('date_select2');
+                            const datepicker2 = new TheDatepicker.Datepicker(input2);
+                            datepicker2.options.setShowDeselectButton();
+                            datepicker2.options.setTitle("終點時間");   // 時間抬頭 
+                            datepicker2.render();
+                        </script>
+                    </div>
+
+                    <!-- ---------------------------------------------------------------- -->
+                    <!-- 終點時間 -->
+                    <!-- <div style="text-align:center;">終點時間</div> -->
+                    <!-- <input type="text" id="date_select2" name="se_date" align="right"> -->
+                    <!-- <script>
+                            const input2 = document.getElementById('date_select2');
+                            const datepicker2 = new TheDatepicker.Datepicker(input2);
+                            datepicker2.options.setTitle("second");   // 時間抬頭
+                            datepicker2.render();
+                        </script> -->
+                    <!--  -->
+                    <!-- ---------------------------------------------------------------- -->
+                    
+
+
+                    <div class="col">
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">確定提交</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+    <br>
+
+
+    <div class="table-responsive  ,overflow-scroll " style="overflow:auto;height:600px;margin-left: 20px;">
+        <table class="table table-striped table-hover">
+            <thead class="table-info">
+                <tr class="table-active">
+                <tr>
+                    <th scope="col">日期</th>
+                    <th scope="col">品名</th>
+                    <th scope="col">批發市場</th>
+                    <th scope="col">上價(元/公斤)</th>
+                    <th scope="col">中價(元/公斤)</th>
+                    <th scope="col">下價(元/公斤)</th>
+                    <th scope="col">平均價(元/公斤)</th>
+                    <th scope="col">交易量(公斤)</th>
+                </tr>
+                </tr>
+            </thead>
+            
+            <tbody>
+                {% for record in data %}
+                <tr class="table-active">
+                <tr>
+                    <th scope="col">{{ record[0] }}</th>
+                    <th scope="col">{{ record[1] }}</th>
+                    <th scope="col">{{ record[2] }}</th>
+                    <th scope="col">{{ record[3] }}</th>
+                    <th scope="col">{{ record[4] }}</th>
+                    <th scope="col">{{ record[5] }}</th>
+                    <th scope="col">{{ record[6] }}</th>
+                    <th scope="col">{{ record[7] }}</th>
+                </tr>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+
+    
+    </div>
+    <footer>
+        <section>資料來源:農產品批發市場交易行情站</section>
+    </footer>
+    {% endblock right_div %}
+
+</body>
+
+</html>

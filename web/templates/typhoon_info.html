@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>颱風歷史資訊</title>
+
+    <!-- date2 -->
+    <link href="../static/date/Year-Input/dist/yearpicker.css" rel="stylesheet" />
+    <script src="../static/date/Year-Input/src/js/jquery.min.js"></script>
+    <script src="../static/date/Year-Input/dist/yearpicker.js"></script>
+    <!--  -->
+
+
+</head>
+
+<body>
+    {% extends 'first_page.html' %}
+    {% block footer %}
+    <footer class="bg-light text-center text-lg-start" id="id_footer">
+        <div class="text-left p-3" style="background-color: #32b35f;text-align: right;font-weight:bold">
+            © 2021 Copyright : <a class="text-dark" href="https://rdc28.cwb.gov.tw/">資料來源:颱風資料庫-中央氣象局</a>
+    </div>
+    </footer>
+    {% endblock footer %}
+
+    {% block text %}
+    <div style=" font-weight:bolder ; color:white;font-weight:bold; text-shadow: black 1px 1px 1px, white -1px 0px 2px ;">
+        <h2 style="color:white">西北太平洋颱風歷史資料</h2>
+    </div>
+    {% endblock text %}
+    {% block right_div %}
+
+
+    <form action="/typ" method="POST" enctype="multipart/form-data">
+        <div class='test'>
+            <!-- 這邊是測試border -->
+            <div class="container">
+                <div class="row">
+                    <!-- <div class="col" > -->
+                    <!-- 下面一行很重要!! name='veg_type' 這裡的veg_type要被web.py那邊接回去-->
+                    <!-- </div> -->
+                    <!-- 測試先註解 -->
+                    <!-- <div class="col" style="text-align:center;"> -->
+                    <div class="col">
+                        <input type="text" autocomplete="off" name="year_pick" class="yearpicker" value=""
+                            placeholder="選擇年份" style="margin-left: 100px ; margin-top: 20px">
+                        <script>
+                            $('.yearpicker').yearpicker({
+                                // Initial Year
+                                year: null,
+                                // Start Year
+                                startYear: 1958,
+                                // End Year
+                                endYear: 2021,
+                                // Element tag
+                                itemTag: 'li',
+                                // Default CSS classes
+                                selectedClass: 'selected',
+                                disabledClass: 'disabled',
+                                hideClass: 'hide',
+
+                                // Custom template
+                                template: `<div class="yearpicker-container">
+                                        <div class="yearpicker-header">
+                                            <div class="yearpicker-prev" data-view="yearpicker-prev">&lsaquo;
+                                                </div>
+                                                <div class="yearpicker-current" data-view="yearpicker-current">SelectedYear
+                                                    </div>
+                                                    <div class="yearpicker-next" data-view="yearpicker-next">&rsaquo;
+                                                        </div>
+                                                    </div>
+                                                    <div class="yearpicker-body">
+                                                        <ul class="yearpicker-year" data-view="years">
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                `,
+
+                            });
+
+                            $('.yearpicker').yearpicker({
+                                onShow: null,
+                                onHide: null,
+                                onChange: function (value) { }
+
+                            });
+
+                        </script>
+                    </div>
+                    <!-- <div class="col">
+
+                    </div> -->
+                    <div class="col" >
+                        <button type="submit" class="btn btn-primary" style="margin-top: 20px">確定提交</button>
+                    </div>
+                </div>
+            </div>
+
+    </form>
+
+    <br>
+
+    <div class="table-responsive  ,overflow-scroll "
+        style="overflow:auto;height:600px;margin-left: 20px; text-align:center;">
+        <table class="table table-striped table-hover " style="table-layout: fixed; text-align:initial ">
+            <thead class="table-info align-middle">
+                <tr class="table-active">
+                <tr style="font-size: 15px ;">
+                    <th scope="col">颱風編號</th>
+                    <th scope="col">年份</th>
+                    <th scope="col">颱風名稱(中)</th>
+                    <th scope="col">颱風名稱(英)</th>
+                    <th scope="col">颱風生成時間</th>
+                    <th scope="col">颱風消散時間</th>
+                    <th scope="col">期間中心最低氣壓</th>
+                    <th scope="col">期間中心最大風速</th>
+                    <th scope="col">期間最大7級風暴風半徑</th>
+                    <th scope="col">期間最大10級風暴風半徑</th>
+                    <th scope="col">警報發布報數</th>
+                </tr>
+                </tr>
+            </thead>
+            <tbody class="align-middle">
+                {% for col in outputs %}
+                <tr>
+                    <td>{{ col['颱風編號'] }}</th>
+                    <td>{{ col['年份'] }} 年</td>
+                    <td>{{ col['颱風名稱(中)'] }}</td>
+                    <td>{{ col['颱風名稱(英)'] }}</td>
+                    <td>{{ col['颱風生成時間'] }}</td>
+                    <td>{{ col['颱風消散時間'] }}</td>
+                    <td>{{ col['颱風生命期間中心最低氣壓(hPa)'] }} hPa</td>
+                    <td>{{ col['颱風生命期間中心最大風速(m/s)'] }} m/s</td>
+                    <td>{{ col['颱風生命期間最大7級風暴風半徑(km)'] }} km</td>
+                    <td>{{ col['颱風生命期間最大10級風暴風半徑(km)'] }} km</td>
+                    <td>{{ col['警報發布報數'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+</body>
+{% endblock right_div %}
+
+
+
+</html>
