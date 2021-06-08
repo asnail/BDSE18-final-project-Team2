@@ -36,17 +36,26 @@ def wea():
 
 
 #颱風列表分頁
-@app.route('/typ')
+@app.route('/typ', methods=['GET', 'POST'])
 def typ():
     connection  = engine.connect() 
-    query = db.select(table_typhoon)
-    proxy = connection.execute(query)
-    results = proxy.fetchall()
-    connection.close()
+    if request.method != 'POST':
+        query = db.select(table_typhoon)
+        proxy = connection.execute(query)
+        results = proxy.fetchall()
+        connection.close()
     
-    return render_template('typhoon_info.html',
-                           outputs=results
-                        )
+        return render_template('typhoon_info.html',outputs=results)
+    
+    if request.method == 'POST':
+        # connection  = engine.connect()
+        year_pick=request.form.get('year_pick')
+        query1 = db.select(table_typhoon).where(table_typhoon.c.年份==year_pick)
+        proxy = connection.execute(query1)
+        results1 = proxy.fetchall()
+        connection.close()
+
+        return render_template('typhoon_info.html',outputs=results1)
 
 
 @app.route('/veg')
@@ -117,9 +126,9 @@ def veg_day():
     
     return render_template('veg_api_page.html',data=firstin)
 
-# @app.route('/team')
-# def team():
-#     return render_template('my_team.html')
+@app.route('/team')
+def team():
+    return render_template('my_team.html')
 
 # 蔬菜API
 def veg_api(veg_code='',star_date='',end_date=''):
